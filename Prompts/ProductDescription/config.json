@@ -1,0 +1,21 @@
+﻿{
+   "name": "ProductDescription",
+   "description": "Generate product marketing copy",
+   "template_format": "semantic-kernel",
+   "input_variables": [
+      {
+         "name": "product",
+         "description": "Product name",
+         "is_required": true
+      },
+      {
+         "name": "tone",
+         "description": "Writing style",
+         "default": "professional"
+      },
+      {
+         "name": "features",
+         "description": "Key features to highlight"
+      }
+   ]
+}

@@ -1,0 +1,3 @@
+﻿Generate a {{$tone}} product description for {{$product}}.
+Key Features:
+{{$features}}
