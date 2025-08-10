@@ -15,10 +15,11 @@ namespace ai.SemanticKernel.Sampler.Console.SemanticFunction;
 /// </summary>
 public static class KernelExtensions
 {
+
    public static KernelFunction CreateFunctionFromPrompt(
        this Kernel kernel,
-       string promptTemplate,
-       local.PromptTemplateConfig.Config config)
+       PromptTemplateConfig config,
+       string promptTemplate)
    {
       // create execution settings (optional)
       var executionSettings = new OpenAIPromptExecutionSettings
@@ -31,4 +32,5 @@ public static class KernelExtensions
       return KernelFunctionFactory.CreateFromPrompt(
          promptTemplate, description: config.Description, executionSettings: executionSettings);
    }
+
 }

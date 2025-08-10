@@ -1,5 +1,6 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,28 +22,28 @@ public class SemanticFunction
           .Build();
 
       // define the Prompt Template configuration
-      var promptConfig = new PromptTemplateConfig.Config
+      var promptConfig = new PromptTemplateConfig
       {
          Description = "Generate a creative product description",
-         InputParameters = new[]
+         InputVariables = new List<InputVariable>
          {
-            new PromptTemplateConfig.InputParameter
+            new InputVariable
             {
                Name = "product",
                Description = "The name of the product to describe",
                IsRequired = true
             },
-            new PromptTemplateConfig.InputParameter
+            new InputVariable
             {
                Name = "tone",
                Description = "The tone of voice (e.g., professional, casual, funny)",
-               DefaultValue = "professional"
+               Default = "professional"
             },
-            new PromptTemplateConfig.InputParameter
+            new InputVariable
             {
                Name = "length",
                Description = "Length of the description",
-               DefaultValue = "medium"
+               Default = "medium"
             }
          }
       };
@@ -57,8 +58,7 @@ public class SemanticFunction
 
       // Create our extended template
       var function = kernel.CreateFunctionFromPrompt(
-          promptTemplate,
-          promptConfig);
+          promptConfig, promptTemplate);
 
       // Create arguments
       var arguments = new KernelArguments

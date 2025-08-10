@@ -8,6 +8,7 @@ using ai.SemanticKernel.Sampler.Console.ChatCompletion;
 using ai.SemanticKernel.Sampler.Console.AutoFunctionCalling;
 using ai.SemanticKernel.Sampler.Console.SemanticFunction;
 using ai.SemanticKernel.Sampler.Console.PromptTemplateLoader;
+using ai.SemanticKernel.Sampler.Console.ResearchAgent;
 
 // -------------------------------------------------------------------------------------------------
 // - Note that the following is not needed for some of the examples...
@@ -27,7 +28,19 @@ var builder = Host.CreateApplicationBuilder(args);
 //await SemanticFunction.RunAsync();
 
 // [Prompt Template Loader] - Prompt Loading
-await PromptTemplateLoader.TemplateLoader();
+//await PromptTemplateLoader.TemplateLoader();
+
+// Web Research Agent... Single topic
+//await WebResearchAgent.SingleTopicResearchAsync("climate change impacts on coastal cities");
+
+// Web Research Agent... Multi Topic Comparison
+string[] relatedTopics = new[]
+    {
+        "wind turbine technology advancements 2023",
+        "solar energy efficiency improvements 2023",
+        "battery storage innovations 2023"
+    };
+await WebResearchAgent.MultiTopicComparisonAsync(relatedTopics);
 
 // -------------------------------------------------------------------
 // - Note that the following is not needed for some of the examples...
