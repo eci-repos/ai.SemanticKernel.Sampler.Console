@@ -20,7 +20,7 @@ public class ActivityNote
    public string Text { get; set; } = string.Empty;
 
    // Auto-embedding: property is a string; value is derived from Text.
-   [VectorStoreVectorAttribute(1023)]
+   [VectorStoreVectorAttribute(1024)]
    public string Embedding => this.Text;
 }
 

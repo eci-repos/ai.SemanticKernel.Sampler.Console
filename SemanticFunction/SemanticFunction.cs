@@ -57,7 +57,7 @@ public class SemanticFunction
          """;
 
       // Create our extended template
-      var function = kernel.CreateFunctionFromPrompt(
+      var function = kernel.CreateFunctionFromPromptTemplate(
           promptConfig, promptTemplate);
 
       // Create arguments

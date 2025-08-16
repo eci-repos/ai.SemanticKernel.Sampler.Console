@@ -16,7 +16,7 @@ namespace ai.SemanticKernel.Sampler.Console.SemanticFunction;
 public static class KernelExtensions
 {
 
-   public static KernelFunction CreateFunctionFromPrompt(
+   public static KernelFunction CreateFunctionFromPromptTemplate(
        this Kernel kernel,
        PromptTemplateConfig config,
        string promptTemplate)
@@ -30,7 +30,7 @@ public static class KernelExtensions
 
       // Create the function directly with prompt template config
       return KernelFunctionFactory.CreateFromPrompt(
-         promptTemplate, description: config.Description, executionSettings: executionSettings);
+         promptTemplate, functionName: config.Description, executionSettings: executionSettings);
    }
 
 }
