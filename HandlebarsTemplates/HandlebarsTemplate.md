@@ -1,8 +1,40 @@
 ﻿# Handlebars Templating
 
-Handlebars is a popular templating language that Microsoft Semantic Kernel has integrated 
-to provide powerful prompt templating capabilities. This integration allows you to create 
-dynamic prompts with logic, conditionals, and loops.
+This code demonstrates how to integrate **Microsoft Semantic Kernel (SK)** with **Handlebars templating** in order to create dynamic, data-driven prompts for large language models (LLMs). It uses **Ollama** to run the `llama3` model locally (`http://localhost:11434`). Two main examples are provided:
+
+1. **BasicTemplate**
+   - Sets up the kernel with Ollama as the completion backend.
+   - Uses a Handlebars template to showcase **variable injection**, **loops with indices**, and **conditional rendering**.
+   - Registers a **custom helper** (`equal`) to evaluate conditions within the template.
+   - Injects runtime arguments (name, date, tasks, priority) and renders an adaptive output.
+
+2. **ComplexTemplate**
+   - Introduces a **UserPlugin** to fetch user profiles dynamically from SK.
+   - Demonstrates **partials** (`commonFooter`) for reusable template sections.
+   - Uses multiple custom helpers (`gt`, `includes`) to apply conditional logic and personalize the output.
+   - Builds a tailored "Weekly Learning Report" that adapts recommendations based on user skill level and interests, and concludes with a standard footer.
+
+Together, these functions illustrate how templating and SK plugins can combine to create personalized, maintainable, and reusable prompts that adapt to user context while keeping the prompt logic clean and testable.
+
+> **Note:** In `ComplexTemplate`, the template expects `userId` but the invocation currently passes `userid` (lowercase *d*). This should be aligned to ensure proper plugin binding.
+
+---
+
+## Goal of the Approach
+
+- **Separate presentation from orchestration:** Templates hold content and structure while the kernel manages model calls and plugin execution.
+- **Enable dynamic, data-driven prompts:** Fetch real data (e.g., user profiles) at runtime and inject it into structured templates.
+- **Promote reusability and consistency:** Common elements (footers, helpers) can be reused across multiple prompts.
+
+---
+
+## Benefits of Handlebars Templating in Semantic Kernel
+
+- **Readable and maintainable prompts:** Templates are easy to read, edit, and manage without cluttering application code.
+- **Reduced complexity:** Eliminates fragile string concatenation by embedding logic (loops, conditions, formatting) into the template.
+- **Reusability:** Partials and helpers allow developers to reuse common sections and logic across multiple templates.
+- **Integration with SK plugins:** Templates can call kernel plugins for live data, creating personalized and context-aware model prompts.
+- **Flexible deployment:** Using Ollama locally makes iteration fast, while enabling later migration to cloud-hosted or enterprise-scale models with minimal code changes.
 
 ## Key Features of Handlebars in Semantic Kernel
 
@@ -12,9 +44,7 @@ dynamic prompts with logic, conditionals, and loops.
 4. **Helpers**: Custom functions for complex operations
 5. **Partials**: Reusable template components
 
-
-
-# Handlebars Feature Guid (v1.0.1)
+# Handlebars Feature Guide (based on v1.0.1)
 
 ## **1. Core Syntax**  
 ### **Variables**  
