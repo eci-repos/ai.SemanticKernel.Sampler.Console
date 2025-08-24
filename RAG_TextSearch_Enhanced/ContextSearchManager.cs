@@ -123,13 +123,13 @@ public class ContextSearchManager
       // Prepare chunks
       var embeddingGenerator = 
          _kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
-      var chunks = BuildChunks(corpus).ToList();
+      var chunks = TextChuncker.BuildChunks(corpus).ToList();
 
       var texts = chunks.Select(c => c.Text).ToList();
 
       // Generate embeddings
       var gen = await embeddingGenerator.GenerateAsync(
-          chunks.Select(c => c.Text),
+          chunks.Select(c => c.Text).Where(t => !string.IsNullOrWhiteSpace(t)),
           new EmbeddingGenerationOptions { ModelId = _config.EmbeddingModel }
       );
       for (int i = 0; i < chunks.Count; i++)
@@ -140,89 +140,6 @@ public class ContextSearchManager
       await _collection.UpsertAsync(chunks);
 
       System.Console.WriteLine($"Upserted {chunks.Count} chunks.");
-   }
-
-   /// <summary>
-   /// Splits the input text into chunks of paragraphs, ensuring that each chunk does not exceed the 
-   /// specified maximum character limit.
-   /// </summary>
-   /// <remarks>This method processes the input text by splitting it into paragraphs based on double
-   /// newline delimiters.  It then groups paragraphs into chunks, ensuring that the total character 
-   /// count of each chunk does not exceed <paramref name="maxChars"/>.  If a paragraph is too long 
-   /// to fit within the limit, it is split into smaller chunks.</remarks>
-   /// <param name="text">The input text to be split into chunks. Paragraphs are separated by two 
-   /// consecutive newline characters.</param>
-   /// <param name="maxChars">The maximum number of characters allowed in each chunk. Defaults 
-   /// to 800. If a single paragraph exceeds this limit, it will be further split into smaller 
-   /// chunks.</param>
-   /// <returns>An enumerable collection of strings, where each string represents a chunk of text 
-   /// containing one or more paragraphs.</returns>
-   public static IEnumerable<string> ChunkByParagraph(string text, int maxChars = 800)
-   {
-      var parts = text.Split(
-         "\n\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-      var buf = new StringBuilder();
-      foreach (var p in parts)
-      {
-         if (buf.Length + p.Length + 2 <= maxChars)
-         {
-            if (buf.Length > 0) buf.AppendLine();
-            buf.AppendLine(p);
-         }
-         else
-         {
-            if (buf.Length > 0) { yield return buf.ToString().Trim(); buf.Clear(); }
-            if (p.Length <= maxChars) yield return p.Trim();
-            else
-            {
-               // very long paragraph fallback
-               for (int i = 0; i < p.Length; i += maxChars)
-               {
-                  yield return p.Substring(i, Math.Min(maxChars, p.Length - i));
-               }
-            }
-         }
-      }
-      if (buf.Length > 0) yield return buf.ToString().Trim();
-   }
-
-   /// <summary>
-   /// Builds a collection of activity chunks from the provided activity corpus.
-   /// </summary>
-   /// <remarks>The method processes each activity in the corpus by splitting its base text into 
-   /// chunks based on paragraphs. Each chunk is categorized into a section (e.g., "Overview", 
-   /// "Registration", etc.) based on its content. If no specific section is identified, the chunk 
-   /// is categorized as "General".  The resulting <see cref="ActivityChunk"/> objects include 
-   /// metadata such as the activity code, the chunk's text, its section, a
-   /// CSV-formatted tag string, and a link to the activity's section.</remarks>
-   /// <param name="corpus">An array of <see cref="ActivityCorpus"/> objects representing the 
-   /// source data for building chunks. Each item in the array contains the base text and 
-   /// associated metadata for an activity.</param>
-   /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="ActivityChunk"/> objects, where each 
-   /// chunk represents a categorized section of the activity text, including metadata such as 
-   /// activity code, section type, and a generated link.</returns>
-   public IEnumerable<ActivityChunk> BuildChunks(ActivityCorpus[] corpus)
-   {
-      foreach (var item in corpus)
-      {
-         var chunks = ChunkByParagraph(item.Base).ToArray();
-         foreach (var c in chunks)
-         {
-            var section = c.StartsWith("Overview:") ? "Overview" :
-                          c.StartsWith("Registration:") ? "Registration" :
-                          c.StartsWith("Participants:") ? "Participants" :
-                          c.StartsWith("Location:") ? "Location" : "General";
-
-            yield return new ActivityChunk
-            {
-               ActivityCode = item.Code,
-               Text = c,
-               Section = section,
-               TagsCsv = $"{item.Code},{section}".ToLowerInvariant(),
-               Link = $"https://example.local/activities/{item.Code}#{section.ToLowerInvariant()}"
-            };
-         }
-      }
    }
 
    /// <summary>

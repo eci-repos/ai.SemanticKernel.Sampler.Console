@@ -47,13 +47,15 @@ In summary: your **previous posts cover the topic of RAG**, and **this new code 
 
 Some ideas to work on next:
 
-- While chunking work on token-aware chunking with overlaps to maximize relevance.
-- Avoid re-embedding identical texts by hashing and checking for existing vectors before upsert.
+- While chunking work on token-aware chunking with overlaps to maximize relevance. (DONE)
+- Avoid re-embedding identical texts by hashing and checking for existing vectors before upsert. (DONE)
 - Extend embedding with batch processing for efficiency.
 - Provide retrieval controls (filters + hybrid + MMR) to refine results.
 - Work on sencond-stage re-ranking of retrieved results.
 - Add system guardrails that forbits fabrication outside the provided sources and include structured citations.
 - Work on Observability: scores, traces, and corpus gaps.
+
+As those are completed I will mark them as DONE.
 
 ## Review MS-SQL 2025 Semantic and Vector Search 
 
