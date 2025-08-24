@@ -43,7 +43,7 @@ public class ActivitySupport
    /// <returns></returns>
    public static QdrantVectorStore GetVectorStore(Kernel kernel)
    {
-      // 2) Configure Qdrant Vector Store and let it auto-embed via the generator
+      // Configure Qdrant Vector Store and let it auto-embed via the generator
       var embedGen = kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
       var qdrant = new QdrantVectorStore(
           qdrantClient: new QdrantClient("localhost"),

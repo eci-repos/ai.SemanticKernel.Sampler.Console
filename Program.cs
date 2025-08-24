@@ -5,7 +5,9 @@ using ai.SemanticKernel.Sampler.Console.MemoryStoreEmbeddings;
 using ai.SemanticKernel.Sampler.Console.PromptTemplateLoader;
 using ai.SemanticKernel.Sampler.Console.ResearchAgent;
 using ai.SemanticKernel.Sampler.Console.SemanticFunction;
+using ai.SemanticKernel.Sampler.Console.RAG_TextSearch_Enhanced;
 using HandlebarsDotNet;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -49,7 +51,10 @@ var builder = Host.CreateApplicationBuilder(args);
 
 // [Handlebars Templating] - show handlebars basic example
 //await HandlebarsTemplating.BasicTemplate();
-await HandlebarsTemplating.ComplexTemplate();
+//await HandlebarsTemplating.ComplexTemplate();
+
+// [RAG Text Search Enhanced] - Activity Text Search Sample
+await ActivityTextSearchSample.RunAsync();
 
 // -------------------------------------------------------------------
 // - Note that the following is not needed for some of the examples...

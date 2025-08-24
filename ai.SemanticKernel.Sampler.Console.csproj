@@ -11,12 +11,12 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.12.2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.7.25380.108" />
     <PackageReference Include="Microsoft.Extensions.VectorData.Abstractions" Version="9.7.0" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.62.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.62.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.62.0-preview" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.62.0-preview" />
-    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.62.0-alpha" />
-    <PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.62.0" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.63.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.63.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.63.0-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.63.0-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.63.0-alpha" />
+    <PackageReference Include="Microsoft.SemanticKernel.PromptTemplates.Handlebars" Version="1.63.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.0-preview.7.25380.108" />
   </ItemGroup>
 
