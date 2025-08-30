@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.AI;
+﻿using ai.SK.Library;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.Qdrant;
 using Microsoft.SemanticKernel.Data;
 using Microsoft.SemanticKernel.PromptTemplates.Handlebars;
-using OpenAI.VectorStores;
 using Qdrant.Client;
 using System.Text;
 
@@ -16,87 +16,35 @@ namespace ai.SemanticKernel.Sampler.Console.RAG_TextSearch_Enhanced;
 
 public class ContextSearchManager
 {
+   private KernelInstance _kernelInstance;
    private ContextManagerConfig _config;
-   private Kernel _kernel;
+   private Kernel _kernel
+   {
+      get { return _kernelInstance.Instance; }
+   }
 
-   private QdrantVectorStore _vectorStore;
+   private StoreInstance _storeInstance;
    private QdrantCollection<Guid, ActivityChunk> _collection;
 
    /// <summary>
    /// Initializes a new instance of the <see cref="ContextSearchManager"/> class,  configuring it
    /// with the specified settings for managing context-based searches.
    /// </summary>
-   /// <remarks>This constructor sets up the necessary components for context-based searches, 
-   /// including a
-   /// connection to a Qdrant vector store and integration with Ollama for  chat completions and 
-   /// embedding generation.
-   /// The Qdrant client defaults to  localhost:6333 unless otherwise specified in the 
-   /// <paramref name="config"/>  The following components are configured: <list type="bullet"> 
-   /// <item><description>Qdrant vector store for storing and retrieving embeddings.
-   /// </description></item> <item><description>Ollama chat completion for generating
-   /// conversational responses.</description></item> <item><description>Ollama embedding 
-   /// generator for creating vector embeddings.</description></item> </list></remarks>
    /// <param name="config">The configuration settings used to initialize the context search 
-   /// manager,  including model endpoints, embedding models, and vector store connection details.
+   /// manager, including model endpoints, embedding models, and vector store connection details.
    /// </param>
    public ContextSearchManager(ContextManagerConfig config)
    {
       _config = config;
-
-      // Qdrant connection (defaults to localhost:6333; add API key/URI if needed)
-      var qdrantClient = new QdrantClient(host: config.StoreHost, port: config.StorePort);
-
-      // Build kernel with Ollama chat + embeddings
-      IKernelBuilder builder = Kernel.CreateBuilder();
-
-      // Chat completion via Ollama (LLM = Llama 3)
-      builder.AddOllamaChatCompletion(
-          modelId: config.Model,
-          endpoint: new Uri(config.ModelEndpoint));
-
-      // Embeddings via Ollama
-      builder.AddOllamaEmbeddingGenerator(
-         modelId: config.EmbeddingModel,
-         endpoint: new Uri(config.ModelEndpoint));
-
-      // Register Qdrant Vector Store
-      builder.Services.AddSingleton(qdrantClient);
-      builder.Services.AddQdrantVectorStore(); // DI extension from SK Qdrant connector
-
-      _kernel = builder.Build();
+      _kernelInstance = new KernelInstance(config);
    }
 
    /// <summary>
-   /// Gets the service responsible for generating embeddings from string inputs.
+   /// Prepare Vector Store.
    /// </summary>
-   /// <remarks>This property retrieves the embedding generation service from the dependency 
-   /// injection container. Ensure that the required service is registered in the container before
-   /// accessing this property.</remarks>
-   private IEmbeddingGenerator<string, Embedding<float>> embeddingService
-      => _kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
-
-   /// <summary>
-   /// Creates and returns a configured instance of <see cref="QdrantVectorStore"/> for use with 
-   /// the specified <see cref="Kernel"/>.
-   /// </summary>
-   /// <remarks>The returned <see cref="QdrantVectorStore"/> is initialized with a client connected 
-   /// to the host specified in the configuration. The embedding generator is resolved from the
-   /// provided <paramref name="kernel"/>
-   /// to enable automatic embedding functionality.</remarks>
-   /// <param name="kernel">The <see cref="Kernel"/> instance used to resolve required services for 
-   /// the vector store.</param>
-   /// <returns>A new instance of <see cref="QdrantVectorStore"/> configured with the necessary 
-   /// embedding generator and client options.</returns>
-   public QdrantVectorStore PrepareVectorStore()
+   public void PrepareVectorStore()
    {
-      // Configure Qdrant Vector Store and let it auto-embed via the generator
-      _vectorStore = new QdrantVectorStore(
-          qdrantClient: new QdrantClient(_config.StoreHost),
-          ownsClient: false,
-          options: new QdrantVectorStoreOptions { EmbeddingGenerator = embeddingService }
-      );
-
-      return _vectorStore;
+      _storeInstance = new StoreInstance(_kernelInstance);
    }
 
    /// <summary>
@@ -123,7 +71,7 @@ public class ContextSearchManager
       // Prepare chunks
       var embeddingGenerator = 
          _kernel.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
-      var chunks = TextChuncker.BuildChunks(corpus).ToList();
+      var chunks = ActivityTextChuncker.BuildChunks(corpus).ToList();
 
       var texts = chunks.Select(c => c.Text).ToList();
 
@@ -154,7 +102,8 @@ public class ContextSearchManager
    {
       // Wrap the vector store collection as a TextSearch provider
 #pragma warning disable SKEXP0001
-      var textSearch = new VectorStoreTextSearch<ActivityChunk>(_collection, embeddingService);
+      var textSearch = 
+         new VectorStoreTextSearch<ActivityChunk>(_collection, _storeInstance.EmbeddingService);
 
       // Optional: expose as a plugin the model can call (returns normalized TextSearchResult with
       // Name/Value/Link)

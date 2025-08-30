@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ai.SK.Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,21 +8,9 @@ using System.Threading.Tasks;
 // -------------------------------------------------------------------------------------------------
 namespace ai.SemanticKernel.Sampler.Console.RAG_TextSearch_Enhanced;
 
-public class ContextManagerConfig
+public class ContextManagerConfig : KernelModelConfig
 {
 
-   public string ModelEndpoint { get; set; } = "http://localhost:11434";
-   public string Model { get; set; } = "llama3";
-   public string EmbeddingModel { get; set; } = "mxbai-embed-large";
-
-   // Qdrant default port is 6333, but we use 6334 for gRPC communication
-   public string StoreEndpoint { get; set; } = "http://localhost:6334";
-   public int StorePort { get; set; } = 6334;
-
-   public int VectorSize { get; set; } = 1024; // embedding size
-   public string DefaultCollection { get; set; } = "knowledge-base";
-   public string ApiKey { get; set; } = "ollama";
-   public string StoreHost { get; set; } = "localhost";
    public string TextSearchPluginName { get; set; } = "ActivitiesSearch";
 
    public string DefaultPrompt { get; set; } = """
