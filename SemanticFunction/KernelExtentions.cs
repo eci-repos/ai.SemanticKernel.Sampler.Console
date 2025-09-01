@@ -1,11 +1,5 @@
 ﻿using Microsoft.SemanticKernel;
-using System;
-using System.Collections.Generic;
-using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-
-using local = ai.SemanticKernel.Sampler.Console.SemanticFunction;
 
 // -------------------------------------------------------------------------------------------------
 namespace ai.SemanticKernel.Sampler.Console.SemanticFunction;

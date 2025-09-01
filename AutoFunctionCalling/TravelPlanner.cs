@@ -44,7 +44,7 @@ public class TravelPlanner
       // Show the complete response at the end
       System.Console.WriteLine("\n\nComplete response:");
       System.Console.WriteLine(fullResponse);
-
+      
    }
 
 }

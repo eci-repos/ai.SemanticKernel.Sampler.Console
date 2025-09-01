@@ -17,14 +17,14 @@ namespace ai.SemanticKernel.Sampler.Console.RAG_TextSearch_Enhanced;
 public class ContextSearchManager
 {
    private KernelInstance _kernelInstance;
-   private ContextManagerConfig _config;
+   private readonly ContextManagerConfig _config;
    private Kernel _kernel
    {
       get { return _kernelInstance.Instance; }
    }
 
-   private StoreInstance _storeInstance;
-   private QdrantCollection<Guid, ActivityChunk> _collection;
+   private StoreInstance? _storeInstance;
+   private QdrantCollection<Guid, ActivityChunk>? _collection;
 
    /// <summary>
    /// Initializes a new instance of the <see cref="ContextSearchManager"/> class,  configuring it

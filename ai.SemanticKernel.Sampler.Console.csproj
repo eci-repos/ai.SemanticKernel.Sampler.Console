@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ai.SK.Library\ai.SK.Library.csproj" />
+    <ProjectReference Include="..\ai.SK.Library\ai.SemanticKernel.Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

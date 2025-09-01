@@ -5,7 +5,9 @@ VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ai.SemanticKernel.Sampler.Console", "ai.SemanticKernel.Sampler.Console.csproj", "{1F85C380-20CB-57F1-25A9-DDB4AFB98AD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ai.SK.Library", "..\ai.SK.Library\ai.SK.Library.csproj", "{53E43D06-0468-48E2-B73C-43DF3D50A7B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ai.SemanticKernel.Library", "..\ai.SK.Library\ai.SemanticKernel.Library.csproj", "{53E43D06-0468-48E2-B73C-43DF3D50A7B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ai.SemanticKernel.Workflow.Sampler.Console", "..\ai.SK.Workflow.Sampler.Console\ai.SemanticKernel.Workflow.Sampler.Console.csproj", "{70A3C01A-84ED-4792-ADA0-A9550710747F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{53E43D06-0468-48E2-B73C-43DF3D50A7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53E43D06-0468-48E2-B73C-43DF3D50A7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53E43D06-0468-48E2-B73C-43DF3D50A7B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A3C01A-84ED-4792-ADA0-A9550710747F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A3C01A-84ED-4792-ADA0-A9550710747F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A3C01A-84ED-4792-ADA0-A9550710747F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A3C01A-84ED-4792-ADA0-A9550710747F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
