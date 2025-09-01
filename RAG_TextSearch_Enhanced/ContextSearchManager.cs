@@ -1,4 +1,4 @@
-﻿using ai.SK.Library;
+﻿using ai.SemanticKernel.Library;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;

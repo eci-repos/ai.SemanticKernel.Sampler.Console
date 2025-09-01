@@ -1,4 +1,4 @@
-﻿using ai.SK.Library;
+﻿using ai.SemanticKernel.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;

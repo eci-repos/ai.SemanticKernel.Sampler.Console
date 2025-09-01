@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ai.SK.Library;
+using ai.SemanticKernel.Library;
 using static ai.SemanticKernel.Sampler.Console.RAG_TextSearch_Enhanced.ActivityInfo;
 
 // -------------------------------------------------------------------------------------------------
